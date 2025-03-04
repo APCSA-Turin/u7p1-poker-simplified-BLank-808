@@ -104,7 +104,7 @@ public class Game{
             }
             deck.pregamecheck(7);
         }
-
+        scan.close();
         if(tokens>=200){
             System.out.println("You won");
         }else if (tokens<=0){

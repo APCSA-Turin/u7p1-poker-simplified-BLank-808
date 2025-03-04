@@ -92,7 +92,7 @@ public class Player{
             return "Two Pair";
         } else if (pair1){
             return "A Pair";
-        } else if (!communityCards.contains(allCards.get(4))){
+        } else if (!containsCard(communityCards, allCards.get(4))){
             return "High Card";
         }else{
         return "Nothing";
@@ -111,6 +111,17 @@ public class Player{
             }
         }
     } 
+
+    public static boolean containsCard(ArrayList<Card> list, Card c ){
+        for (Card n: list){
+            if(n.getRank().equals(c.getRank()) && n.getSuit().equals(c.getSuit())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     public ArrayList<Integer> findRankingFrequency(){
         ArrayList<Integer> flist= new ArrayList<>();
