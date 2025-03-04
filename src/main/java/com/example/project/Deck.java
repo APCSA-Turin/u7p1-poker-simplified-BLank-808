@@ -9,7 +9,6 @@ public class Deck{
     public Deck(){
         cards = new ArrayList<>();
         initializeDeck();
-        shuffleDeck();
     }
 
     public ArrayList<Card> getCards(){
@@ -26,17 +25,14 @@ public class Deck{
             cards.add(new Card(Ranks[rank], Suits[suit]));
 
             rank++;
-            if(rank==12){
+            if(rank==13){
                 rank=0;
-            }
-            suit++;
-            if (suit==4){
-                suit=0;
+                suit++;
             }
         }
     }
 
-    public  void shuffleDeck(){ //You can use the Collections library or another method. You do not have to create your own shuffle algorithm
+    public void shuffleDeck(){ //You can use the Collections library or another method. You do not have to create your own shuffle algorithm
         Collections.shuffle(cards);
         topCard=0;
     }
@@ -51,6 +47,11 @@ public class Deck{
         return cards.isEmpty();
     }
 
+    public void pregamecheck(int minCards){
+        if(cards.size() -( topCard+1) < minCards){
+            shuffleDeck();
+        }
+    }
    
 
 

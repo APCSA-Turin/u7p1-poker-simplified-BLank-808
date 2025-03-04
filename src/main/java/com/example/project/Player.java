@@ -1,5 +1,7 @@
 package com.example.project;
+
 import java.util.ArrayList;
+
 
 
 public class Player{
@@ -27,14 +29,20 @@ public class Player{
         boolean four=false;
         boolean sameS=false;
         boolean assending=true;
+        allCards.clear();
+        allCards.add(hand.get(0));
+        allCards.add(hand.get(1));
         for (Card C : communityCards) {
             allCards.add(C);
         }
+
         sortAllCards();
+
+        //System.out.println(allCards);
         ArrayList<Integer> frequencyR= findRankingFrequency();
-        System.out.println(frequencyR);
+        //System.out.println(frequencyR);
         ArrayList<Integer> frequencyS= findSuitFrequency();
-        System.out.println(frequencyS);
+        //System.out.println(frequencyS);
         //CompareSuits
         if(frequencyS.size()==1){
             sameS=true;
@@ -84,7 +92,7 @@ public class Player{
             return "Two Pair";
         } else if (pair1){
             return "A Pair";
-        } else if (communityCards.contains(allCards.get(4))){
+        } else if (!communityCards.contains(allCards.get(4))){
             return "High Card";
         }else{
         return "Nothing";
@@ -108,9 +116,12 @@ public class Player{
         ArrayList<Integer> flist= new ArrayList<>();
         Card prev=allCards.get(0);
         flist.add(findFrequency(prev, "R"));
+        
         for (Card card : allCards) {
+            //System.out.println(!card.getRank().equals(prev.getRank()) + " " + card);
             if(!card.getRank().equals(prev.getRank())){
                 flist.add(findFrequency(card, "R"));
+                prev=card;
             }
         }
         return flist;
@@ -118,11 +129,11 @@ public class Player{
 
     public ArrayList<Integer> findSuitFrequency(){
         ArrayList<Integer> flist= new ArrayList<>();
-        Card prev=allCards.get(0);
-        flist.add(findFrequency(prev, "S"));
+        ArrayList<String> suitscontained= new ArrayList<>();
         for (Card card : allCards) {
-            if(!card.getSuit().equals(prev.getSuit())){
+            if(!suitscontained.contains(card.getSuit())){
                 flist.add(findFrequency(card, "S"));
+                suitscontained.add(card.getSuit());
             }
         }
         return flist; 
@@ -140,14 +151,14 @@ public class Player{
         if(R_or_S.equals("R")){
             val= card.getRank();
             for (Card c : allCards) {
-                if(!c.getRank().equals(val)){
+                if(c.getRank().equals(val)){
                     count++;
                 }
             }
         }else{
             val=card.getSuit();
             for (Card c : allCards) {
-                if(!c.getSuit().equals(val)){
+                if(c.getSuit().equals(val)){
                     count++;
                 }
             }
@@ -156,5 +167,27 @@ public class Player{
         return count;
     }
 
+    public int getHighestInHand(){
+        int c1 =Utility.getRankValue(hand.get(0).getRank());
+        int c2 =Utility.getRankValue(hand.get(1).getRank());
+        if(c1>c2){
+            return c1;
+        } else {
+            return c2;
+        }
+    }
 
+    public int getlowestInHand(){
+        int c1 =Utility.getRankValue(hand.get(0).getRank());
+        int c2 =Utility.getRankValue(hand.get(1).getRank());
+        if(c1>c2){
+            return c2;
+        } else {
+            return c1;
+        }
+    }
+
+    public void clear(){
+        hand.clear();
+    }
 }
